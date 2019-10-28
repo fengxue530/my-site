@@ -6,7 +6,7 @@
 	<groupId>cn.luischen</groupId>
 	<artifactId>my-site</artifactId>
 	<version>1.0.2.RELEASE</version>
-	<packaging>war</packaging>
+    <packaging>${pom.package}</packaging>
 
 	<name>my-site</name>
 	<description>Demo project for Spring Boot</description>
@@ -17,6 +17,47 @@
 		<version>2.0.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<profiles>
+		<profile>
+			<!-- 开发环境 -->
+			<id>jar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<pom.package>jar</pom.package>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<version>2.0.1.RELEASE</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>war</id>
+			<properties>
+				<pom.package>war</pom.package>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<version>2.0.1.RELEASE</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+					<version>3.1.0</version>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -167,20 +208,22 @@
 			<version>7.2.11</version>
 		</dependency>
 
-		<!--由jar 改成 war  需要增加tomcat依赖-->
+<!--
+		&lt;!&ndash;由jar 改成 war  需要增加tomcat依赖&ndash;&gt;
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
-		<!--由jar改成 war  需要增加 servlet 依赖-->
+		&lt;!&ndash;由jar改成 war  需要增加 servlet 依赖&ndash;&gt;
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+-->
 
 	</dependencies>
 
@@ -212,7 +255,7 @@
 				</configuration>
 			</plugin>
 			<!-- Docker maven plugin -->
-			<!--<plugin>
+			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>1.0.0</version>
@@ -224,10 +267,10 @@
 							<targetPath>/</targetPath>
 							<directory>${project.build.directory}</directory>
 							<include>${project.build.finalName}.jar</include>
-						</resource>
+						</resource>:
 					</resources>
 				</configuration>
-			</plugin>-->
+			</plugin>
 			<!-- Docker maven plugin -->
 		</plugins>
 	</build>

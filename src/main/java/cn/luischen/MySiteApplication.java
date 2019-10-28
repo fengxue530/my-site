@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 @MapperScan("cn.luischen.dao")
@@ -16,6 +17,7 @@ public class MySiteApplication extends SpringBootServletInitializer {
 		SpringApplication.run(MySiteApplication.class, args);
 	}
 
+	@Profile(value = {"war"})
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application){
 		return application.sources(MySiteApplication.class);
